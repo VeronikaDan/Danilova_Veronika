@@ -3,7 +3,8 @@ import re
 
 def create_fst_lang():
     fst = {('hit', '<font'): 'sum', ('hit', '<i>'): 'hit', ('sum', '</font>'): 'hit', ('sum', '<font'): 'sum',
-           ('sum', '<i>'): 'akk', ('akk', '</font>'): 'hit', ('akk', '<font'): 'sum', ('akk', '<i>'): 'hit'}
+           ('sum', '<i>'): 'akk', ('akk', '</font>'): 'hit', ('akk', '<font'): 'sum', ('akk', '<i>'): 'hit',
+           ('akk', '</span>'): 'hit', ('sum', '</span>'): 'hit', ('hit', '</span>'): 'hit', ('hit', '</font>'): 'hit'}
     return fst
 
 
@@ -17,7 +18,7 @@ def create_fst_letters():
 
 
 def valid_tag(tag):
-    if tag in ['<i>', '</font>']:
+    if tag in ['<i>', '</font>', '</span>']:
         return tag
     if tag.startswith('<font'):
         return '<font'
@@ -82,7 +83,7 @@ def process_word(word):
 
 
 def clean(word):
-    word = re.sub('[^-a-záéíúšḫ\s]', '', word)
+    word = re.sub('[^-a-záéíúšḫ\s]|(nbsp)', '', word)
     clean_word = ''
     for i in range(len(word)):
         if (i != len(word)-1) & (i != 0):
